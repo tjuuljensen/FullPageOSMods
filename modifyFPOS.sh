@@ -14,7 +14,11 @@ crontab -l > $CRONTABTMPFILE
 
 #echo new cron into cron file
 echo "# Reboot RPI nightly
-0 3 * * * sudo reboot now" >> $CRONTABTMPFILE
+0 3 * * * sudo reboot now
+
+# Refresh browser window after 30 minutes
+30 * * * * /home/pi/scripts/refresh
+" >> $CRONTABTMPFILE
 
 # Replace crontab from tmpfile
 crontab $CRONTABTMPFILE
