@@ -4,6 +4,11 @@
 # check if script is root and restart as root if not
 [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
+UnpackingFiles(){
+  echo Unpacking and moving files from github repository...
+  mv /tmp/FullPageOSMods-master/scripts/ /home/pi/scripts/
+}
+
 EditChromiumScript(){
   # Disable default chromium start behaviour and go to error handling method
   echo Editing "/home/pi/scripts/start_chromium_browser"...
@@ -96,7 +101,7 @@ FixError(){
   # This error is due to a mistake in source with the use of sed
   # (Line 22 in https://github.com/guysoft/FullPageOS/blob/devel/src/modules/fullpageos/start_chroot_script)
   echo Fixing errors in /boot/cmdline.txt
-  sed 's/co logo.nologo consoleblank=0 loglevel=0sole=/logo.nologo consoleblank=0 loglevel=0 quiet console=/' /boot/cmdline.txt
+  sed -i 's/co logo.nologo consoleblank=0 loglevel=0sole=/logo.nologo consoleblank=0 loglevel=0 quiet console=/' /boot/cmdline.txt
 
 }
 
@@ -111,6 +116,7 @@ Restart(){
 }
 
 # Main
+UnpackingFiles
 EditChromiumScript
 SetHostname
 EditCrontab
