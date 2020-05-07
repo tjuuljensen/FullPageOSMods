@@ -130,7 +130,7 @@ ChangePassword
 ChangeKeyboard
 SetTimeZone
 UpdateOS
-SetCustomStartPage   # SetDefaultStartPage
+SetDefaultStartPage  #SetCustomStartPage
 SetCustomSplashscreen
 FixError
 PressAnyKeyToContinue
