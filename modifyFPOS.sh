@@ -86,6 +86,12 @@ SetDefaultStartPage(){
     echo 'http://localhost/FullPageDashboard' > /boot/fullpageos.txt
 }
 
+SetCustomSplashscreen(){
+  echo Setting custom splash screen...
+  CUSTOMSPLASH=/tmp/FullPageOSMods-master/media/custom.png
+  [ -f $CUSTOMSPLASH ] && mv /boot/splash.png /boot/splash.png.bak && cp /tmp/FullPageOSMods-master/media/custom.png /boot/splash.png
+}
+
 FixError(){
   # This error is due to a mistake in source with the use of sed
   # (Line 22 in https://github.com/guysoft/FullPageOS/blob/devel/src/modules/fullpageos/start_chroot_script)
@@ -114,6 +120,7 @@ ChangeKeyboard
 SetTimeZone
 UpdateOS
 SetCustomStartPage   # SetDefaultStartPage
+SetCustomSplashscreen
 FixError
 PressAnyKeyToContinue
 Restart
