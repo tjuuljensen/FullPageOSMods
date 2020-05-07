@@ -64,10 +64,12 @@ ChangePassword(){
 }
 
 SetLocale(){
-  locale-gen da_DK.UTF-8
+  sed -i 's/# da_DK.UTF-8 UTF-8/da_DK.UTF-8 UTF-8/'
+  locale-gen
   update-locale LANG=da_DK.UTF-8 LANGUAGE
   #update-locale LC_TIME=da_DK.UTF-8
   #update-locale LC_NUMERIC=da_DK.UTF-8
+  #dpkg-reconfigure locales
 }
 
 ChangeKeyboard(){
@@ -126,7 +128,7 @@ EditChromiumScript
 WriteIDfile    #SetHostname
 EditCrontab
 ChangePassword
-#SetLocale
+SetLocale
 ChangeKeyboard
 SetTimeZone
 UpdateOS
