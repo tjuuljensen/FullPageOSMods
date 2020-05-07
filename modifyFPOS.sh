@@ -64,7 +64,7 @@ ChangePassword(){
 }
 
 SetLocale(){
-  sed -i 's/# da_DK.UTF-8 UTF-8/da_DK.UTF-8 UTF-8/'
+  sed -i 's/# da_DK.UTF-8 UTF-8/da_DK.UTF-8 UTF-8/' /etc/locale.gen 
   locale-gen
   update-locale LANG=da_DK.UTF-8 LANGUAGE
   #update-locale LC_TIME=da_DK.UTF-8
