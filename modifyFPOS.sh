@@ -6,7 +6,7 @@
 
 UnpackingFiles(){
   echo Unpacking and moving files from github repository...
-  mv /tmp/FullPageOSMods-master/scripts/ /home/pi/scripts/
+  mv /tmp/FullPageOSMods-master/scripts/* /home/pi/scripts
 }
 
 EditChromiumScript(){
@@ -41,8 +41,9 @@ EditCrontab(){
 # Refresh browser window after 30 minutes
 30 * * * * /home/pi/scripts/refresh
 
-# Refresh browser after 1 minute to avoid start loading delay errors
-@reboot sleep 60 && /home/pi/scripts/refresh
+# Refresh browser after reboot to avoid start loading delay errors
+@reboot sleep 5 && /home/pi/scripts/remove-lock.sh
+@reboot sleep 15 && /home/pi/scripts/refresh
 " >> $CRONTABTMPFILE
 
   # Replace crontab from tmpfile
