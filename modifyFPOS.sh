@@ -16,6 +16,13 @@ EditChromiumScript(){
 
 }
 
+WriteIDfile(){
+  read -r -p "Enter name of the Pi: " IDNAME
+  if [ ! -z $IDNAME ] ; then
+     touch "/home/pi/$IDNAME.id"
+  fi
+}
+
 SetHostname(){
   # set hostname
   echo
@@ -57,10 +64,6 @@ ChangePassword(){
 }
 
 SetLocale(){
-  #localectl set-locale LANG=da_DK.UTF-8
-  #export LANGUAGE=en_GB.UTF-8   # Not set as default
-  #export LANG=en_GB.UTF-8
-  #export LC_ALL=da_DK.UTF-8
   locale-gen da_DK.UTF-8
   update-locale LANG=da_DK.UTF-8 LANGUAGE
   #update-locale LC_TIME=da_DK.UTF-8
@@ -120,7 +123,7 @@ Restart(){
 clear
 UnpackingFiles
 EditChromiumScript
-SetHostname
+WriteIDfile    #SetHostname
 EditCrontab
 ChangePassword
 #SetLocale
