@@ -42,7 +42,6 @@ EditCrontab(){
 30 * * * * /home/pi/scripts/refresh
 
 # Refresh browser after reboot to avoid start loading delay errors
-@reboot sleep 5 && /home/pi/scripts/remove-lock.sh
 @reboot sleep 15 && /home/pi/scripts/refresh
 " >> $CRONTABTMPFILE
 
