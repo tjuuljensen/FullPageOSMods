@@ -117,6 +117,7 @@ Restart(){
 }
 
 # Main
+clear
 UnpackingFiles
 EditChromiumScript
 SetHostname
