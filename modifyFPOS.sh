@@ -31,11 +31,14 @@ EditCrontab(){
 
   #echo new cron into cron file
   echo "# Reboot RPI nightly
-  0 3 * * * sudo reboot now
+0 3 * * * sudo reboot now
 
-  # Refresh browser window after 30 minutes
-  30 * * * * /home/pi/scripts/refresh
-  " >> $CRONTABTMPFILE
+# Refresh browser window after 30 minutes
+30 * * * * /home/pi/scripts/refresh
+
+# Refresh browser after 1 minute to avoid start loading delay errors
+@reboot sleep 60 && /home/pi/scripts/refresh
+" >> $CRONTABTMPFILE
 
   # Replace crontab from tmpfile
   crontab $CRONTABTMPFILE
@@ -49,14 +52,13 @@ ChangePassword(){
 
 SetLocale(){
   #localectl set-locale LANG=da_DK.UTF-8
-  export LANGUAGE=en_GB.UTF-8
-  export LANG=en_GB.UTF-8
+  #export LANGUAGE=en_GB.UTF-8   # Not set as default
+  #export LANG=en_GB.UTF-8
   #export LC_ALL=da_DK.UTF-8
   locale-gen da_DK.UTF-8
-  #update-locale LANG=da_DK.UTF-8 LANGUAGE
-  update-locale LC_TIME=da_DK.UTF-8
-  update-locale LC_NUMERIC=da_DK.UTF-8
-  #dpkg-reconfigure locales
+  update-locale LANG=da_DK.UTF-8 LANGUAGE
+  #update-locale LC_TIME=da_DK.UTF-8
+  #update-locale LC_NUMERIC=da_DK.UTF-8
 }
 
 ChangeKeyboard(){
@@ -65,6 +67,7 @@ ChangeKeyboard(){
 }
 
 SetTimeZone(){
+  echo Setting Timezone...
   timedatectl set-timezone Europe/Copenhagen
 }
 
@@ -73,12 +76,27 @@ UpdateOS(){
   apt-get -y upgrade
 }
 
-SetFrydensbergViggo(){
+SetCustomStartPage(){
+    echo Setting custom FullPageOS startpage
     echo 'https://fryd.viggo.dk/screen/1' > /boot/fullpageos.txt
+}
+
+SetDefaultStartPage(){
+    echo Setting default FullPageOS startpage
+    echo 'http://localhost/FullPageDashboard' > /boot/fullpageos.txt
+}
+
+FixError(){
+  # This error is due to a mistake in source with the use of sed
+  # (Line 22 in https://github.com/guysoft/FullPageOS/blob/devel/src/modules/fullpageos/start_chroot_script)
+  echo Fixing errors in /boot/cmdline.txt
+  sed 's/co logo.nologo consoleblank=0 loglevel=0sole=/logo.nologo consoleblank=0 loglevel=0 quiet console=/' /boot/cmdline.txt
+
 }
 
 PressAnyKeyToContinue(){
     read -n 1 -s -r -p "Press any key to continue..."
+    echo
 }
 
 Restart(){
@@ -91,10 +109,11 @@ EditChromiumScript
 SetHostname
 EditCrontab
 ChangePassword
-SetLocale
+#SetLocale
 ChangeKeyboard
 SetTimeZone
 UpdateOS
-SetFrydensbergViggo
+SetCustomStartPage   # SetDefaultStartPage
+FixError
 PressAnyKeyToContinue
 Restart
