@@ -24,6 +24,7 @@ SetHostname(){
   read -r -p "Enter NEW hostname (or <Enter> to continue unchanged): " NEWHOSTNAME
   if [ ! -z $NEWHOSTNAME ] ; then
     hostnamectl set-hostname --static "$NEWHOSTNAME"
+    rm -rf ~/.config/chromium/Singleton*
   fi
 }
 
